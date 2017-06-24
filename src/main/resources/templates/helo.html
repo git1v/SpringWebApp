@@ -11,5 +11,9 @@
 <body>
 	<h1 th:text="${title}"></h1>
 	<p th:text="${message}"></p>
+	<form method="post" action='/'>
+		<input type="text" name="input1" />
+		<input type="submit" value="送信" />
+	</form>
 </body>
 </html>
