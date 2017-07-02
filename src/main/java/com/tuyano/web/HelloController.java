@@ -1,36 +1,30 @@
 package com.tuyano.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-@SessionAttributes("message")
 public class HelloController {
-	
-	@ModelAttribute("message")
-	String message(){
-		return "this is default messgage";
-	}
+	@Autowired
+	MySpringBean bean;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String index(@ModelAttribute("message")String msg, Model model){
-		System.out.println("@ModelAttribute(\"message\"): "+msg);
+	public String index(Model model){
 		model.addAttribute("title","Helo Page");
+		model.addAttribute("message", "input data: ");
 		return "helo";
 	}
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String form(@RequestParam("input1")String input1,
-			@ModelAttribute("message")String msg, Model model){
-		System.out.println("@ModelAttribute(\"message\"): "+msg);
-		String res="あなたは「"+input1+"」と入力しました。";
+	public String form(@RequestParam("input1")int input1, Model model){
+		MyData data=bean.get(input1);
 		model.addAttribute("title", "Answer Page");
-		model.addAttribute("message", res);
+		model.addAttribute("message", data);
 		return "helo";
 	}
 }
